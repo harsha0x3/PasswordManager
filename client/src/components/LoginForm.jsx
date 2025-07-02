@@ -3,6 +3,7 @@ import { useLoginMutation } from "../slices/userApiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -27,9 +28,11 @@ const LoginForm = () => {
       const res = await login({ email, password }).unwrap();
 
       dispatch(setCredentials(res.user));
+      toast.success(`Logged in as ${res.user.name}`);
     } catch (error) {
       console.log(error);
       console.log(error.data.msg);
+      toast.error(error.data.msg);
     }
   };
   return (
