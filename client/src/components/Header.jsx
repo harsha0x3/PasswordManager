@@ -1,28 +1,34 @@
 import { useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { clearCredentials } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/userApiSlice";
+
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
+
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
-      const res = await logout().unwrap();
-      console.log("Logout");
-      console.log(res);
+      await logout().unwrap();
       dispatch(clearCredentials());
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
   return (
-    <div className="flex bg-blue-700 justify-between">
-      <h1>Password Wallet</h1>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    <header className="bg-blue-700 text-white flex justify-between items-center px-6 py-3 shadow">
+      <h1 className="text-2xl font-bold">🔐 Password Wallet</h1>
+      <button
+        onClick={handleLogout}
+        className="bg-white text-blue-700 px-4 py-2 rounded hover:bg-gray-200"
+      >
+        Logout
+      </button>
+    </header>
   );
 };
 

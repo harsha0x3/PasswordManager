@@ -1,7 +1,4 @@
-import React from "react";
-
 const Loader = ({ size = "md" }) => {
-  // Size classes mapping
   const sizeClasses = {
     xs: "h-3 w-3",
     sm: "h-4 w-4",
@@ -11,9 +8,9 @@ const Loader = ({ size = "md" }) => {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center py-4">
       <div
-        className={`animate-spin rounded-full border-2 border-solid border-current border-r-transparent ${sizeClasses[size]}`}
+        className={`animate-spin rounded-full border-2 border-blue-500 border-t-transparent ${sizeClasses[size]}`}
       >
         <span className="sr-only">Loading...</span>
       </div>

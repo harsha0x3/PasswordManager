@@ -1,7 +1,67 @@
-import React from "react";
+import { useState } from "react";
+import { useRegisterMutation } from "../slices/userApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../slices/authSlice";
+import { useNavigate, Link } from "react-router-dom";
 
-const RegisterForm = () => {
-  return <div>RgisterForm</div>;
-};
+export default function RegisterForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [register, { isLoading }] = useRegisterMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-export default RegisterForm;
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await register({ email, password }).unwrap();
+      dispatch(setCredentials(res.user));
+      navigate("/passwords");
+    } catch (err) {
+      console.error(err.data?.msg || err);
+    }
+  };
+
+  return (
+    <div className="bg-cp p-8 rounded-xl max-w-md mx-auto border-neon">
+      <h2 className="text-neon-cyan font-cyber text-2xl mb-6 text-center">
+        Create Account
+      </h2>
+      <form className="flex flex-col gap-4" onSubmit={submitHandler}>
+        <label className="text-neon-pink font-cyber">
+          E‑mail
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1 w-full bg-gray-700/40 border border-gray-600 rounded px-3 py-2 text-white"
+            required
+          />
+        </label>
+        <label className="text-neon-pink font-cyber">
+          Password
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1 w-full bg-gray-700/40 border border-gray-600 rounded px-3 py-2 text-white"
+            required
+          />
+        </label>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="btn-glitch mt-4 disabled:opacity-50"
+        >
+          {isLoading ? "Registering..." : "Register"}
+        </button>
+        <p>
+          Account Exists?{" "}
+          <span>
+            <Link to="/">Login</Link>
+          </span>
+        </p>
+      </form>
+    </div>
+  );
+}

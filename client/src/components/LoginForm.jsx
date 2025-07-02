@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLoginMutation } from "../slices/userApiSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,8 +14,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo.userInfo && userInfo.userInfo.email) {
-      console.log(userInfo.email);
+    if (userInfo.userInfo?.email) {
       navigate("/passwords");
     }
   }, [userInfo, navigate]);
@@ -23,49 +22,54 @@ const LoginForm = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      console.log("Submit");
-
       const res = await login({ email, password }).unwrap();
-
       dispatch(setCredentials(res.user));
       toast.success(`Logged in as ${res.user.name}`);
     } catch (error) {
-      console.log(error);
-      console.log(error.data.msg);
-      toast.error(error.data.msg);
+      toast.error(error.data?.msg || "Login failed");
     }
   };
+
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="email">
-          E-mail
+    <div className="max-w-md bg-white/10 mx-auto mt-10 shadow-md rounded-lg p-6">
+      <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+      <form onSubmit={submitHandler} className="flex flex-col gap-4">
+        <label className="flex flex-col">
+          <span className="mb-1 text-gray-700">E-mail</span>
           <input
-            type="text"
+            type="email"
+            className="border border-gray-300 rounded px-3 py-2"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </label>
-        <label htmlFor="password">
-          Password
+
+        <label className="flex flex-col">
+          <span className="mb-1 text-gray-700">Password</span>
           <input
-            type="text"
+            type="password"
+            className="border border-gray-300 rounded px-3 py-2"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </label>
+
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
           disabled={isLoading}
         >
-          "Login"
+          Login
         </button>
-        <div>
-          <span>
-            New User? <Link to="register">Register</Link>
-          </span>
-        </div>
+
+        <p className="text-sm text-center">
+          New user?{" "}
+          <Link to="/register" className="text-blue-600 underline">
+            Register here
+          </Link>
+        </p>
       </form>
     </div>
   );

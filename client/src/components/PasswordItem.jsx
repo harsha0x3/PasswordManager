@@ -1,79 +1,79 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCheck,
-  faCopy,
-  faEye,
-  faEyeSlash,
   faFloppyDisk,
   faPenToSquare,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useUpdatePasswordDataMutation } from "../slices/passwordsApiSlice";
-import PasswordData from "./PasswordData";
 
 const PasswordItem = ({ passwordData }) => {
-  console.log("PasswordData");
-
-  console.log(passwordData.password);
-
   const [edit, setEdit] = useState(false);
   const [account, setAccount] = useState(passwordData.account);
   const [password, setPassword] = useState(passwordData.password);
-  const [updatePasswordData, { isLoading }] = useUpdatePasswordDataMutation();
+  const [updatePasswordData] = useUpdatePasswordDataMutation();
+
   const handleEdit = async () => {
-    console.log("Edit: " + edit);
     if (edit) {
       try {
-        const updatedData = await updatePasswordData({
+        const updated = await updatePasswordData({
           id: passwordData._id,
           account,
           password,
         }).unwrap();
-        setAccount(updatedData.account);
-        setPassword(updatedData.password);
+        setAccount(updated.account);
+        setPassword(updated.password);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
-
     setEdit(!edit);
   };
+
   const handleCancel = () => {
     setAccount(passwordData.account);
     setPassword(passwordData.password);
     setEdit(false);
   };
+
   return (
-    <li className="flex flex-col gap-0.5 border border-white bg-[#41413c]/35 mb-3 rounded-lg p-4">
-      <label htmlFor={`account-${passwordData._id}`}>
-        Account
+    <li className="bg-white/10 border border-gray-400 rounded-lg p-4 text-white mb-4">
+      <label className="block mb-2">
+        <span className="text-sm">Account</span>
         <input
-          className="text-black-50 border-white bg-gray-200/25 rounded-lg px-4 pb-2"
-          id={`account-${passwordData._id}`}
-          readOnly={!edit}
           value={account}
-          onChange={(e) => {
-            setAccount(e.target.value);
-          }}
-        ></input>
+          readOnly={!edit}
+          onChange={(e) => setAccount(e.target.value)}
+          className="w-full mt-1 rounded px-3 py-1 bg-white/20"
+        />
       </label>
 
-      <label htmlFor={`password-${passwordData._id}`}>
-        Password
+      <label className="block mb-2">
+        <span className="text-sm">Password</span>
         <input
-          id={`password-${passwordData._id}`}
-          className=" text-black border-white bg-gray-200/25 rounded-lg p-4"
-          readOnly={!edit}
           value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        ></input>
+          readOnly={!edit}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full mt-1 rounded px-3 py-1 bg-white/20"
+        />
       </label>
-      <button onClick={handleEdit}>
-        <FontAwesomeIcon icon={edit ? faFloppyDisk : faPenToSquare} />
-      </button>
-      {edit && <button onClick={handleCancel}>cancel</button>}
+
+      <div className="flex gap-2 mt-2">
+        <button
+          onClick={handleEdit}
+          className="text-sm px-3 py-1 bg-gray-700 rounded text-white hover:bg-gray-600"
+        >
+          <FontAwesomeIcon icon={edit ? faFloppyDisk : faPenToSquare} />
+        </button>
+        {edit && (
+          <button
+            onClick={handleCancel}
+            className="text-sm px-3 py-1 bg-red-500 rounded text-white hover:bg-red-600"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        )}
+      </div>
     </li>
   );
 };
