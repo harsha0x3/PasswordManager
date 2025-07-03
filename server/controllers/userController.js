@@ -22,12 +22,10 @@ const authUser = asyncHandler(async (req, res) => {
     throw new AuthError("Invalid Credentials");
   }
   generateToken(res, user._id);
-  res
-    .status(200)
-    .json({
-      user: { name: user.name, email: user.email },
-      msg: `Logged in as ${user.name}`,
-    });
+  res.status(200).json({
+    user: { name: user.name, email: user.email },
+    msg: `Logged in as ${user.name}`,
+  });
 });
 
 // @route / request - POST
@@ -48,11 +46,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // @route / request - POST
 const logoutUser = asyncHandler(async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   res.cookie("jwt", "", {
     httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "strict",
     expires: new Date(0),
   });
-  res.status(200).json({ msg: "user Logged out" });
+
+  res.status(200).json({ msg: "User logged out" });
 });
 
 // @route / request - GET
