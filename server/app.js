@@ -9,7 +9,7 @@ import passwordRoutes from "./routes/password_routes.js";
 import userRoutes from "./routes/userRoutes.js";
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 const port = process.env.PORT;
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [process.env.FRONTEND_URL];
 
 app.use(
   cors({
