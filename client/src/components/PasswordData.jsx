@@ -11,9 +11,14 @@ const PasswordData = () => {
   return (
     <div className="mt-6">
       <h3 className="text-lg font-medium text-white mb-2">Saved Passwords</h3>
-      <ul className="max-h-[400px] overflow-y-auto">
+      <ul className="max-h-[500px] overflow-y-auto">
         {data?.passwords.map((item) => (
-          <PasswordItem key={item._id} passwordData={item} />
+          <div
+            key={item._id}
+            className="border border-black m-3 p-4 bg-white/10 rounded-md"
+          >
+            <PasswordItem passwordData={item} />
+          </div>
         ))}
       </ul>
     </div>

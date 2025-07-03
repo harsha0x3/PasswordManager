@@ -31,11 +31,11 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-md bg-white/10 mx-auto mt-10 shadow-md rounded-lg p-6">
+    <div className="border border-black bg-gray-700 max-w-md p-6 rounded-md text-white shadow-md">
       <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
       <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <label className="flex flex-col">
-          <span className="mb-1 text-gray-700">E-mail</span>
+          <span className="mb-1 text-gray-300">E-mail</span>
           <input
             type="email"
             className="border border-gray-300 rounded px-3 py-2"
@@ -46,7 +46,7 @@ const LoginForm = () => {
         </label>
 
         <label className="flex flex-col">
-          <span className="mb-1 text-gray-700">Password</span>
+          <span className="mb-1 text-gray-300">Password</span>
           <input
             type="password"
             className="border border-gray-300 rounded px-3 py-2"

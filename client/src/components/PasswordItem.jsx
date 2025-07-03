@@ -37,7 +37,7 @@ const PasswordItem = ({ passwordData }) => {
   };
 
   return (
-    <li className="bg-white/10 border border-gray-400 rounded-lg p-4 text-white mb-4">
+    <li className="rounded-lg text-white mb-4">
       <label className="block mb-2">
         <span className="text-sm">Account</span>
         <input

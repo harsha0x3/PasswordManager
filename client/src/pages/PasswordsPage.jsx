@@ -3,9 +3,16 @@ import PasswordData from "../components/PasswordData";
 
 const PasswordsPage = () => {
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white p-6">
-      <PasswordForm />
-      <PasswordData />
+    <div className="flex text-white">
+      {/* Left half */}
+      <div className="w-1/2 flex items-center justify-center border-r border-gray-700 px-6">
+        <PasswordForm />
+      </div>
+
+      {/* Right half */}
+      <div className="w-1/2 flex items-center justify-center px-6">
+        <PasswordData />
+      </div>
     </div>
   );
 };

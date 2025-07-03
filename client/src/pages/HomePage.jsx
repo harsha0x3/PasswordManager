@@ -3,9 +3,16 @@ import { Outlet } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="flex min-h-screen bg-gray-900 text-white p-6">
-      <PasswordForm />
-      <Outlet />
+    <div className="flex text-white">
+      {/* Left half */}
+      <div className="w-1/2 flex items-center justify-center border-r border-gray-700 px-6">
+        <PasswordForm />
+      </div>
+
+      {/* Right half */}
+      <div className="w-1/2 flex items-center justify-center px-6">
+        <Outlet />
+      </div>
     </div>
   );
 };
