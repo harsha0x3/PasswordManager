@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearCredentials } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/userApiSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,10 @@ const Header = () => {
     try {
       await logout().unwrap();
       dispatch(clearCredentials());
+      toast.success("USer Logged out");
       navigate("/");
     } catch (error) {
-      console.error(error);
+      toast.error(error.data?.msg || "Login failed");
     }
   };
 

@@ -6,6 +6,7 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useUpdatePasswordDataMutation } from "../slices/passwordsApiSlice";
+import { toast } from "react-toastify";
 
 const PasswordItem = ({ passwordData }) => {
   const [edit, setEdit] = useState(false);
@@ -24,7 +25,7 @@ const PasswordItem = ({ passwordData }) => {
         setAccount(updated.account);
         setPassword(updated.password);
       } catch (error) {
-        console.error(error);
+        toast.error(error.data?.msg || "Fectching Failed");
       }
     }
     setEdit(!edit);

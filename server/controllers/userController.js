@@ -41,7 +41,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newUser) {
     generateToken(res, newUser._id);
   }
-  res.status(200).json({ newUser });
+  res.status(200).json({
+    user: { name: newUser.name, email: newUser.email },
+    msg: `Registered in as ${newUser.name}`,
+  });
 });
 
 // @route / request - POST
@@ -58,15 +61,15 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ msg: "User logged out" });
 });
 
-// @route / request - GET
-const showAllUsers = asyncHandler(async (req, res) => {
-  const allUsers = await Users.find({});
-  res.status(200).json({ allUsers });
-});
+// // @route / request - GET
+// const showAllUsers = asyncHandler(async (req, res) => {
+//   const allUsers = await Users.find({});
+//   res.status(200).json({ allUsers });
+// });
 
 const deleteUsers = asyncHandler(async (req, res) => {
   await Users.deleteMany();
   res.send("deleted Everything");
 });
 
-export { registerUser, showAllUsers, authUser, deleteUsers, logoutUser };
+export { registerUser, authUser, deleteUsers, logoutUser };

@@ -34,6 +34,8 @@ const createPassword = asyncHandler(async (req, res) => {
   let passwordToSet;
   let userName;
   let loggedUser;
+  let message;
+
   if (!password) {
     passwordToSet = generatePassword(
       length,
@@ -55,14 +57,12 @@ const createPassword = asyncHandler(async (req, res) => {
         password: passwordToSet,
         userId: req.user._id,
       });
+      message = `Password Generated and Saved`;
     } else {
       generatedPassword = {
         password: passwordToSet,
         _id: uuidv4(),
       };
-      console.log("gen");
-
-      console.log(generatedPassword);
     }
   } else {
     userName = "not Logged";
@@ -70,9 +70,10 @@ const createPassword = asyncHandler(async (req, res) => {
       password: passwordToSet,
       _id: uuidv4(),
     };
+    message = `Password Generated`;
   }
 
-  res.status(200).json({ generatedPassword, msg: `Logged as ${userName}` });
+  res.status(200).json({ generatedPassword, msg: message });
 });
 
 const updatePassword = asyncHandler(async (req, res) => {

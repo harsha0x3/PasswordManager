@@ -16,6 +16,7 @@ import {
 } from "../slices/passwordsApiSlice";
 import PasswordItem from "./PasswordItem";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 // Keep your imports as-is
 
@@ -62,9 +63,10 @@ function PasswordForm() {
             password,
           }).unwrap();
       setResponse(res.generatedPassword);
+      toast.success(res.msg);
       setShowRecent(true);
     } catch (error) {
-      console.error(error);
+      toast.error(error.data?.msg || "Login failed");
     }
   };
 

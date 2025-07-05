@@ -3,6 +3,7 @@ import { useRegisterMutation } from "../slices/userApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -17,9 +18,11 @@ export default function RegisterForm() {
     try {
       const res = await register({ name, email, password }).unwrap();
       dispatch(setCredentials(res.user));
+      toast.success(res.msg);
       navigate("/passwords");
-    } catch (err) {
-      console.error(err.data?.msg || err);
+    } catch (error) {
+      console.error(error.data?.msg || error);
+      toast.error(error.data?.msg || "Registring failed");
     }
   };
 

@@ -11,6 +11,7 @@ const PasswordData = () => {
   return (
     <div className="mt-6">
       <h3 className="text-lg font-medium text-white mb-2">Saved Passwords</h3>
+      {!data && <p>No PAsswords Saved</p>}
       <ul className="max-h-[500px] overflow-y-auto">
         {data?.passwords.map((item) => (
           <div

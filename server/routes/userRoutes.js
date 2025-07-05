@@ -6,10 +6,9 @@ import {
   deleteUsers,
   logoutUser,
   registerUser,
-  showAllUsers,
 } from "../controllers/userController.js";
 
-router.route("/").post(registerUser).get(showAllUsers);
+router.route("/").post(registerUser);
 router.route("/auth").post(authUser);
 router.route("/logout").post(logoutUser);
 router.route("/del").delete(deleteUsers);
